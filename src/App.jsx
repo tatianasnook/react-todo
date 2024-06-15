@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import './App.css';
 
 const todoList = [
   {
@@ -24,7 +23,7 @@ function App() {
       <ul>
         {todoList.map(function(item){
           return(
-            <li ley={item.id}>
+            <li key={item.id}>
               {item.title}
             </li>
           )
