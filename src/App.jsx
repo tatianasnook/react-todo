@@ -1,18 +1,8 @@
-import * as React from 'react';
 
 const todoList = [
-  {
-    id: 1,
-    title: 'Read material for lesson 1.1'
-  },
-  {
-    id: 2,
-    title: 'Do textbook exercises'
-  },
-  {
-    id: 3,
-    title: 'Complete assignment'
-  }
+  {id: 1, title: 'Read material for lesson 1.1'},
+  {id: 2, title: 'Do textbook exercises'},
+  {id: 3, title: 'Complete assignment'}
 ];
 
 function App() {
