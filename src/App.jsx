@@ -1,8 +1,8 @@
 
 const todoList = [
-  {id: 1, title: 'Read material for lesson 1.1'},
+  {id: 1, title: 'Read material for the lesson'},
   {id: 2, title: 'Do textbook exercises'},
-  {id: 3, title: 'Complete assignment'}
+  {id: 3, title: 'Complete the assignment'}
 ];
 
 function App() {
