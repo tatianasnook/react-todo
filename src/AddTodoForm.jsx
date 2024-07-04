@@ -1,4 +1,3 @@
-
 const AddTodoForm = (props) => {
 
   const handleAddTodo = (e) => {
@@ -12,7 +11,7 @@ const AddTodoForm = (props) => {
   return (
     <form onSubmit={handleAddTodo}>
       <label htmlFor="todoTitle">Title</label>
-      <input id="todoTitle" name="title"/>
+      <input id="todoTitle" name="title" />
       <button type="submit">Add</button>
     </form>
   )
