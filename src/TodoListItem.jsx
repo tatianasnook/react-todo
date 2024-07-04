@@ -1,7 +1,8 @@
-const TodoListItem = (props) => {
+const TodoListItem = ({ todo }) => {
+
   return (
-    <li key={props.todo.key}>
-        {props.todo.title}
+    <li>
+        {todo}
     </li>
   )
 }
