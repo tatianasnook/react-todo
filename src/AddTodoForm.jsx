@@ -10,7 +10,6 @@ const AddTodoForm = ({ onAddTodo }) => {
 
   const handleAddTodo = (e) => {
     e.preventDefault();
-    console.log(todoTitle);
     setTodoTitle('');
     onAddTodo({title: todoTitle, id: Date.now()});
   } 
