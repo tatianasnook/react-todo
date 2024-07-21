@@ -10,8 +10,8 @@ const AddTodoForm = ({ onAddTodo }) => {
 
   const handleAddTodo = (e) => {
     e.preventDefault();
-    setTodoTitle('');
     onAddTodo({title: todoTitle, id: Date.now()});
+    setTodoTitle('');
   } 
 
   return (

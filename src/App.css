@@ -2,3 +2,7 @@
   background-color: lightgrey;
   color: white;
 }
+
+input {
+  margin: 0 10px;
+}
