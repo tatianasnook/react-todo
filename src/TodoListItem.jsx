@@ -1,8 +1,10 @@
-const TodoListItem = ({ todo }) => {
+const TodoListItem = ({ todo, onRemoveTodo }) => {
 
   return (
     <li>
-        {todo}
+      {todo.title}
+      &nbsp;
+      <button type="button" onClick={() => onRemoveTodo(todo.id)}>Remove</button>
     </li>
   )
 }
