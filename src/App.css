@@ -1,8 +1,18 @@
+
+.container{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.form{
+  display: flex;
+}
 .add-btn{
   background-color: lightgrey;
-  color: white;
+  border: 1px solid black;
 }
-
-input {
-  margin: 0 10px;
+li {
+  margin-bottom: 5px;
 }
