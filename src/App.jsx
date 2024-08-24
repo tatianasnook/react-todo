@@ -8,28 +8,92 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    new Promise((resolve, reject) => {
-      setTimeout(
-        () => resolve({data: {todoList: JSON.parse(localStorage.getItem('savedTodoList'))}}), 
-        2000
-      );
-    })
-    .then((result) => {
-      setTodoList(result.data.todoList);
+  async function fetchData(){
+    const options={};
+    options.method = 'GET'
+    options.headers = {
+      Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`,
+    }
+    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+
+    try {
+      const response = await fetch(url, options);
+
+      if(!response.ok){
+        const message = `Error has ocurred: ${response.status}`;
+        throw new Error(message);
+      }
+      const data = await response.json();
+
+      const todos = data.records.map((todo) => {
+        const newTodo = {
+          id: todo.id,
+          title: todo.fields.title
+        }
+        return newTodo;
+      });
+
+      setTodoList(todos);
       setIsLoading(false);
-    })
+
+    } catch(error){
+      console.log(error.message);
+    }
+  }
+  
+  const postTodo = async (todoTitle) => {
+
+  try {
+    const airtableData = {
+      fields: {
+        title: todoTitle.title,
+      },
+    };
+
+    const response = await fetch(
+      `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`, // Ensure this matches your GET request
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`,
+        },
+        body: JSON.stringify(airtableData),
+      }
+    );
+  
+    if (!response.ok) {
+      const message = `Error has occurred: ${response.status}`;
+      throw new Error(message);
+    }
+
+    const dataResponse = await response.json();
+
+    const newTodo = {
+      id: dataResponse.id,
+      title: dataResponse.fields.title,
+    };
+
+    setTodoList([...todoList, newTodo]);
+
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+  useEffect(() => {
+    fetchData();
   }, [])
 
   useEffect(() => {
     if(!isLoading) {
       localStorage.setItem("savedTodoList", JSON.stringify(todoList));
     }
-  }, [todoList]);
+  }, [todoList, isLoading]);
 
-  const addTodo = (newTodo) => {
-    setTodoList([...todoList, newTodo])
-  }
+  const addTodo = (todoTitle) => {
+    postTodo(todoTitle);
+  };
 
   const removeTodo = (id) => {
     const newToDoList = todoList.filter(
