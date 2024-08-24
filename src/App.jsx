@@ -9,20 +9,21 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchData(){
-    const options={};
-    options.method = 'GET'
-    options.headers = {
-      Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`,
-    }
+    const options = {
+      method: 'GET',
+      headers: {Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`}
+    };
+    
     const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
 
     try {
       const response = await fetch(url, options);
-
+      
       if(!response.ok){
         const message = `Error has ocurred: ${response.status}`;
         throw new Error(message);
       }
+
       const data = await response.json();
 
       const todos = data.records.map((todo) => {
@@ -32,7 +33,7 @@ function App() {
         }
         return newTodo;
       });
-
+      
       setTodoList(todos);
       setIsLoading(false);
 
@@ -41,14 +42,13 @@ function App() {
     }
   }
   
-  const postTodo = async (todoTitle) => {
-
-  try {
-    const airtableData = {
-      fields: {
-        title: todoTitle.title,
-      },
-    };
+  const postTodo = async (todo) => {
+    try {
+      const airtableData = {
+        fields: {
+          title: todo.title,
+        },
+      };
 
     const response = await fetch(
       `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`, // Ensure this matches your GET request
@@ -68,6 +68,7 @@ function App() {
     }
 
     const dataResponse = await response.json();
+    console.log(dataResponse)
 
     const newTodo = {
       id: dataResponse.id,
@@ -94,6 +95,7 @@ function App() {
   const addTodo = (todoTitle) => {
     postTodo(todoTitle);
   };
+  
 
   const removeTodo = (id) => {
     const newToDoList = todoList.filter(
