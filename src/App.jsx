@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import AddTodoForm from "./AddTodoForm.jsx";
 import TodoList from "./TodoList.jsx";
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -68,7 +69,6 @@ function App() {
     }
 
     const dataResponse = await response.json();
-    console.log(dataResponse)
 
     const newTodo = {
       id: dataResponse.id,
@@ -104,12 +104,31 @@ function App() {
   }
 
   return (
-    <div className="container">
-      <h1>Todo List</h1>
-      <AddTodoForm onAddTodo={addTodo} />
-      {isLoading ? <p>Loading ...</p> : 
-      <TodoList todoList={todoList} onRemoveTodo={removeTodo} />}
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              <div className="container">
+                <h1>Todo List</h1>
+                <AddTodoForm onAddTodo={addTodo} />
+                {isLoading ? <p>Loading ...</p> : 
+                <TodoList todoList={todoList} onRemoveTodo={removeTodo} />}
+              </div>
+            }
+          />
+          <Route 
+            path="/new" 
+            element={
+              <div className="container">
+                <h1>New Todo List</h1>
+              </div>
+            }  
+          />
+        </Routes>
+      </BrowserRouter>
+    </>
   )
 }
 
