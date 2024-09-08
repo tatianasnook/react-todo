@@ -1,17 +1,32 @@
-
-.container{
-  height: 100vh;
+.App{
+  background-color: #7b68ee;
+  font-family: "Poppins", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  height: 100vh;
+  color: #002765;
+}
+.container{
+  margin: 150px auto;
+  padding: 50px;
+  background-color: white;
+  border-radius: 20px;
+}
+.container h1{
+  text-align: center;
+  margin-bottom: 20px;
 }
 .form{
   display: flex;
 }
 .add-btn{
-  background-color: lightgrey;
-  border: 1px solid black;
+  background-color: #fdd805;
+  border: none;
+  padding: 0 5px;
+}
+.add-btn:hover{
+  background-color: #ccb21d;
 }
 li {
   margin-bottom: 5px;

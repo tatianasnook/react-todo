@@ -1,10 +1,16 @@
+import * as style from './TodoListItem.module.css';
+import check from './assets/check.png';
+
 const TodoListItem = ({ todo, onRemoveTodo }) => {
 
   return (
-    <li>
+    <li className={style.ListItem}>
       {todo.title}
-      &nbsp;
-      <button type="button" onClick={() => onRemoveTodo(todo.id)}>Remove</button>
+      <img 
+        src={ check } 
+        alt="check mark" 
+        onClick={() => onRemoveTodo(todo.id)}
+      />
     </li>
   )
 }
