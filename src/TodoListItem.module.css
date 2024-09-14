@@ -1,0 +1,8 @@
+.ListItem {
+  color: rgb(17, 17, 143);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: disc;
+  padding-top: 20px;
+}
