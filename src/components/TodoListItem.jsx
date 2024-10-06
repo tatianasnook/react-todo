@@ -1,8 +1,10 @@
 import * as style from './TodoListItem.module.css';
-import check from './assets/check.png';
+import check from '../assets/check.png';
+import PropTypes from 'prop-types';
+
 
 const TodoListItem = ({ todo, onRemoveTodo }) => {
-
+  
   return (
     <li className={style.ListItem}>
       {todo.title}
@@ -13,6 +15,14 @@ const TodoListItem = ({ todo, onRemoveTodo }) => {
       />
     </li>
   )
+}
+
+TodoListItem.propTypes = {
+  todo: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+  }),
+  onRemoveTodo: PropTypes.func,
 }
 
 export default TodoListItem;

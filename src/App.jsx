@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
-import AddTodoForm from "./AddTodoForm.jsx";
-import TodoList from "./TodoList.jsx";
+import AddTodoForm from "./components/AddTodoForm.jsx";
+import TodoList from "./components/TodoList.jsx";
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -82,6 +82,38 @@ function App() {
   }
 };
 
+  const deleteTodo = async (id) => {
+    try {
+      const response = await fetch(
+        `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const message = `Error has occurred: ${response.status}`;
+        throw new Error(message);
+      }
+
+      setTodoList(todoList.filter(todo => todo.id !== id));
+
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const addTodo = (todoTitle) => {
+    postTodo(todoTitle);
+  };
+  
+  const removeTodo = (id) => {
+    deleteTodo(id); 
+  };
+
   useEffect(() => {
     fetchData();
   }, [])
@@ -91,17 +123,6 @@ function App() {
       localStorage.setItem("savedTodoList", JSON.stringify(todoList));
     }
   }, [todoList, isLoading]);
-
-  const addTodo = (todoTitle) => {
-    postTodo(todoTitle);
-  };
-  
-
-  const removeTodo = (id) => {
-    const newToDoList = todoList.filter(
-      (todo) => todo.id !== id)
-    setTodoList(newToDoList)
-  }
 
   return (
     <div className="App">
