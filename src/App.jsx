@@ -15,7 +15,9 @@ function App() {
       headers: {Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`}
     };
     
-    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+    const url = `https://api.airtable.com/v0/${
+      import.meta.env.VITE_AIRTABLE_BASE_ID}/${
+      import.meta.env.VITE_TABLE_NAME}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=asc`;
 
     try {
       const response = await fetch(url, options);
@@ -34,8 +36,20 @@ function App() {
         }
         return newTodo;
       });
-      
-      setTodoList(todos);
+
+      const sortedTodo = todos.sort((objectA, objectB) => {
+        const titleA = objectA.title;
+        const titleB = objectB.title;
+        if (titleA < titleB) {
+          return 1;
+        } else if (titleA > titleB) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      setTodoList(sortedTodo);
       setIsLoading(false);
 
     } catch(error){
