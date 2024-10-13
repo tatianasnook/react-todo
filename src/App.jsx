@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import AddTodoForm from "./components/AddTodoForm.jsx";
 import TodoList from "./components/TodoList.jsx";
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
 
 function App() {
@@ -18,12 +18,12 @@ function App() {
       headers: {Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`}
     };
     
-    const query1 = "?view=Grid%20view"; 
+    // const query1 = "?view=Grid%20view"; 
     // sort by Airtable view order
     // const query2 = "&sort[0][field]=title"; 
     // const query3 = "&sort[0][direction]=asc"; 
     //sort title field in ascending alphabetical order
-    const url = `${baseUrl}${query1}`;
+    const url = `${baseUrl}`;
 
     try {
       const response = await fetch(url, options);
@@ -78,7 +78,11 @@ function App() {
       title: dataResponse.fields.title,
     };
 
-    setTodoList([...todoList, newTodo]);
+    const updatedTodoList = [...todoList, newTodo].sort((a, b) =>
+      sortAsc ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
+    );
+
+    setTodoList(updatedTodoList);
 
   } catch (error) {
     console.log(error.message);
@@ -150,32 +154,52 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route 
-            path="/" 
-            element={
-              <div className="container">
-                <h1>Todo List</h1>
-                <AddTodoForm onAddTodo={addTodo} />
+        <nav className="header">
+          <ul className="nav-menu">
+            <li className="nav-link">
+              <Link to="/" className="link">Home</Link>
+              </li>
+            <li className="nav-link">
+              <Link to="/todos" className="link">Todo List</Link>
+            </li>
+            <li className="nav-link">
+              <Link to="/grocerylist" className="link">Grocery List</Link>
+            </li>
+          </ul>
+        </nav>
 
-                <button onClick={handleSortToggle}>
+        <Switch>
+          <Route exact path="/" component={() => (
+            <div className="container">
+              <h1>Welcome to the Todo App</h1>
+            </div>
+            )} 
+          />
+
+          <Route path="/todos" component={() => (
+            <div className="container">
+              <h1>Todo List</h1>
+
+              <AddTodoForm onAddTodo={addTodo} />
+
+              {isLoading ? <p>Loading...</p> : <TodoList todoList={todoList} onRemoveTodo={removeTodo}/>}
+
+               <div className="sorting-btn-container">
+                <button className="sorting-btn" onClick={handleSortToggle}>
                   {sortAsc ? "Sort Descending" : "Sort Ascending"}
                 </button>
+              </div>
+            </div>
+            )} 
+          />
 
-                {isLoading ? <p>Loading ...</p> : 
-                <TodoList todoList={todoList} onRemoveTodo={removeTodo} />}
-              </div>
-            }
+          <Route exact path="/grocerylist" component={() => (
+            <div className="container">
+              <h1>Grocery List</h1>
+            </div>
+            )} 
           />
-          <Route 
-            path="/new" 
-            element={
-              <div className="container">
-                <h1>New Todo List</h1>
-              </div>
-            }  
-          />
-        </Routes>
+        </Switch>
       </BrowserRouter>
     </div>
   )
