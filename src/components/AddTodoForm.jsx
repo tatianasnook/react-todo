@@ -13,6 +13,7 @@ const AddTodoForm = ({ onAddTodo }) => {
 
   const handleAddTodo = (e) => {
     e.preventDefault();
+    if(!todoTitle.trim()) return;
     onAddTodo({title: todoTitle, id: Date.now()});
     setTodoTitle('');
   } 
@@ -31,7 +32,7 @@ const AddTodoForm = ({ onAddTodo }) => {
 }
 
 AddTodoForm.propTypes ={
-  onAddTodo: PropTypes.func,
+  onAddTodo: PropTypes.func.isRequired,
 }
 
 export default AddTodoForm;
