@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import AddTodoForm from "./components/AddTodoForm.jsx";
 import TodoList from "./components/TodoList.jsx";
@@ -10,6 +9,7 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [sortAsc, setSortAsc] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+
   const baseUrl = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
 
   async function fetchData(){
@@ -23,6 +23,7 @@ function App() {
     // const query2 = "&sort[0][field]=title"; 
     // const query3 = "&sort[0][direction]=asc"; 
     //sort title field in ascending alphabetical order
+    
     const url = `${baseUrl}`;
 
     try {
